@@ -1,15 +1,15 @@
-public class LoanDecisionController {
+public class LoanDecisionService {
 
     private final boolean hasDebt;
-    private final double loanAmout;
+    private final double loanAmount;
     private final int loanPeriod;
     private final int creditModifier;
-    final int minimumLoanAmout = 2000;
-    final int maximumLoanAmout = 10000;
+    private final int minimumLoanAmount = 2000;
+    private final int maximumLoanAmount = 10000;
 
-    public LoanDecisionController(boolean hasDebt, double loanAmout, int loanPeriod, int creditModifier) {
+    public LoanDecisionService(boolean hasDebt, double loanAmout, int loanPeriod, int creditModifier) {
         this.hasDebt = hasDebt;
-        this.loanAmout = loanAmout;
+        this.loanAmount = loanAmout;
         this.loanPeriod = loanPeriod;
         this.creditModifier = creditModifier;
     }
@@ -19,7 +19,7 @@ public class LoanDecisionController {
     }
 
     public double getLoanAmout() {
-        return loanAmout;
+        return loanAmount;
     }
 
     public int getLoanPeriod() {
@@ -28,6 +28,14 @@ public class LoanDecisionController {
 
     public int getCreditModifier() {
         return creditModifier;
+    }
+
+    public int getMinimumLoanAmount() {
+        return minimumLoanAmount;
+    }
+
+    public int getMaximumLoanAmount() {
+        return maximumLoanAmount;
     }
 
     public boolean giveLoan(){
@@ -39,9 +47,9 @@ public class LoanDecisionController {
 
         int maxLoanAmout = getCreditModifier() * getLoanPeriod();
 
-        if (maxLoanAmout >= minimumLoanAmout){
+        if (maxLoanAmout >= getMinimumLoanAmount()){
             System.out.println("LOAN APPROVED");
-            maxLoanAmout = Math.min(maxLoanAmout,maximumLoanAmout);
+            maxLoanAmout = Math.min(maxLoanAmout,getMaximumLoanAmount());
             return maxLoanAmout;
         }
         System.out.println("LOAN DISAPPROVED");
