@@ -1,3 +1,5 @@
+package com.inbank.loanengine.controller;
+
 public class LoanDecisionController {
 
     private final String personalCode;

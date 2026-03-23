@@ -1,3 +1,5 @@
+package com.inbank.loanengine.domain;
+
 public class LoanDecision {
 
     private final String status;

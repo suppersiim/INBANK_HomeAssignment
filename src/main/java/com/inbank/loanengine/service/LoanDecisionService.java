@@ -1,3 +1,5 @@
+package com.inbank.loanengine.service;
+
 public class LoanDecisionService {
 
     private final boolean hasDebt;
