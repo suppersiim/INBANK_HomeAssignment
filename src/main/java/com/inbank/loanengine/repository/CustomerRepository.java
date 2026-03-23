@@ -1,4 +1,9 @@
 package com.inbank.loanengine.repository;
 
-public class CustomerRepository {
+import com.inbank.loanengine.domain.CustomerSegment;
+
+public interface CustomerRepository {
+
+    CustomerSegment findByPersonalCode(String personalCode) throws Exception;
+
 }

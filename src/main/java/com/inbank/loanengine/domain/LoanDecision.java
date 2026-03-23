@@ -3,12 +3,12 @@ package com.inbank.loanengine.domain;
 public class LoanDecision {
 
     private final String status;
-    private final Integer loanAmount;
-    private final Integer loanPeriod;
+    private final Integer approvedAmount;
+    private final Integer approvedperiod;
 
-    public LoanDecision(String status, Integer loanAmount, Integer loanPeriod) {
+    public LoanDecision(String status, Integer approvedAmount, Integer approvedperiod) {
         this.status = status;
-        this.loanAmount = loanAmount;
-        this.loanPeriod = loanPeriod;
+        this.approvedAmount = approvedAmount;
+        this.approvedperiod = approvedperiod;
     }
 }
