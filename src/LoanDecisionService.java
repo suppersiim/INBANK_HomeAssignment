@@ -38,12 +38,14 @@ public class LoanDecisionService {
         return maximumLoanAmount;
     }
 
+    // giveLoan method returns true if the person does not have debt and false otherwise
     public boolean giveLoan(){
         if (isHasDebt()) return false;
         else return true;
     }
 
-    public Integer calculateLoanAmout(){
+    // CalculateLoanAmount calculates the maximum loan amount a specific person can take (returns the value)
+    public Integer CalculateLoanAmout(){
 
         int maxLoanAmout = getCreditModifier() * getLoanPeriod();
 

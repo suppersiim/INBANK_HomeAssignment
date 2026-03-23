@@ -42,6 +42,8 @@ public class LoanDecisionController {
         return maximumLoanPeriod;
     }
 
+    // getCreaditScore method determines if person has debt (return null) and if not returns the credit score of the
+    // person
     public Integer getCreditScore(){
         if (getPersonalCode().equals("49002010965")) return null;
         else if (getPersonalCode().equals("49002010976")) return 100;
@@ -49,6 +51,7 @@ public class LoanDecisionController {
         else if (getPersonalCode().equals("49002010998")) return 1000;
     }
 
+    // InputController method validates that the input is in the correct (returns true) and if not returns false
     public boolean InputController(){
 
         if (getCreditScore() != null &&
