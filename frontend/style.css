@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --text: #1a1a1a;
+    --muted: #888;
+    --border: #ddd;
+    --accent: #1a1a1a;
+    --accent-hover: #333;
+    --radius: 6px;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+}
+
+#loan-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+}
+
+.section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    margin-bottom: 1.75rem;
+}
+
+/* Instructions block */
+#loan-form > p:not(.section-title) {
+    font-size: 0.8rem;
+    color: #444;
+    line-height: 1.6;
+}
+
+#loan-form > p:nth-of-type(2) {
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    color: #444;
+    margin-bottom: 0.25rem;
+}
+
+#loan-form > p:nth-of-type(3),
+#loan-form > p:nth-of-type(4) {
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    color: #444;
+    margin-bottom: 0.2rem;
+}
+
+#loan-form > p:nth-of-type(4) {
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+}
+
+label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.01em;
+}
+
+input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.65rem 0.85rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input:focus {
+    border-color: var(--accent);
+    background: #fff;
+}
+
+#submit-btn {
+    margin-top: 0.75rem;
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+#submit-btn:hover {
+    background: var(--accent-hover);
+}
+
+#result {
+    max-width: 420px;
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+}
+
+.result-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    margin-top: 1rem;
+}
+
+.result-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+}
+
+.result-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+}
+
+.status-approved { color: var(--text); }
+.status-denied   { color: #c0392b; margin-bottom: 0; }
+
+.result-details {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.detail-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+}

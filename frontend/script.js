@@ -14,5 +14,28 @@ document.getElementById('loan-form').addEventListener('submit', async function(e
     });
 
     const data = await response.json();
-    document.getElementById('result').innerText = JSON.stringify(data);
+    displayResult(data);
 });
+
+function displayResult(data) {
+    const result = document.getElementById('result');
+    const isApproved = data.status === 'APPROVED';
+
+    result.className = isApproved ? 'result-box approved' : 'result-box denied';
+
+    result.innerHTML = `
+        <p class="result-label">RESULT</p>
+        <p class="result-status ${isApproved ? 'status-approved' : 'status-denied'}">${data.status}</p>
+        ${isApproved ? `
+        <div class="result-details">
+            <div class="result-detail">
+                <p class="detail-label">APPROVED AMOUNT</p>
+                <p class="detail-value">€${data.approvedAmount}</p>
+            </div>
+            <div class="result-detail">
+                <p class="detail-label">PERIOD</p>
+                <p class="detail-value">${data.approvedPeriod} mo</p>
+            </div>
+        </div>` : ''}
+    `;
+}
