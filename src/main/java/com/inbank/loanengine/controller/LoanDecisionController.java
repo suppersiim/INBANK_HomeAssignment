@@ -1,66 +1,33 @@
 package com.inbank.loanengine.controller;
 
+import com.inbank.loanengine.domain.LoanDecision;
+import com.inbank.loanengine.domain.LoanRequest;
+import com.inbank.loanengine.service.LoanDecisionService;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/loan")
+@CrossOrigin(origins = "*")
 public class LoanDecisionController {
 
-    private final String personalCode;
-    private final double loanAmount;
-    private final int loanPeriod;
+    private final LoanDecisionService loanDecisionService;
 
-    public LoanDecisionController(String personalCode, double loanAmount, int loanPeriod) {
-        this.personalCode = personalCode;
-        this.loanAmount = loanAmount;
-        this.loanPeriod = loanPeriod;
+    public LoanDecisionController(LoanDecisionService loanDecisionService) {
+        this.loanDecisionService = loanDecisionService;
     }
 
-    public String getPersonalCode() {
-        return personalCode;
-    }
+    // Posting loan decision request, validating the input and returning the loan decision
+    @PostMapping("/decision")
+    public LoanDecision getDecision(@RequestBody LoanRequest request) throws Exception {
 
-    public double getLoanAmount() {
-        return loanAmount;
-    }
-
-    public int getLoanPeriod() {
-        return loanPeriod;
-    }
-
-    public int getMinimumLoanAmount() {
-        return 2000;
-    }
-
-    public int getMaximumLoanAmount() {
-        return 10000;
-    }
-
-    public int getMinimumLoanPeriod() {
-        return 12;
-    }
-
-    public int getMaximumLoanPeriod() {
-        return 60;
-    }
-
-    // getCreaditScore method determines if person has debt (return null) and if not returns the credit score of the
-    // person
-    public Integer getCreditScore() throws Exception {
-        if (getPersonalCode().equals("49002010965")) return null;
-        else if (getPersonalCode().equals("49002010976")) return 100;
-        else if (getPersonalCode().equals("49002010987")) return 300;
-        else if (getPersonalCode().equals("49002010998")) return 1000;
-        else throw new Exception();
-    }
-
-    // InputController method validates that the input is in the correct (returns true) and if not returns false
-    public boolean InputController() throws Exception {
-
-        if (getCreditScore() != null &&
-            getLoanAmount() >= getMinimumLoanAmount() && getLoanAmount() <= getMaximumLoanAmount() &&
-            getLoanPeriod() >= getMinimumLoanPeriod() && getMinimumLoanPeriod() <= getMaximumLoanPeriod()
-            ){
-            return true;
+        if (request.getLoanAmount() < 2000 || request.getLoanAmount() > 10000) {
+            throw new IllegalArgumentException("Loan amount must be between 2000 and 10000");
         }
-        return false;
+        if (request.getLoanPeriod() < 12 || request.getLoanPeriod() > 60) {
+            throw new IllegalArgumentException("Loan period must be between 12 and 60 months");
+        }
 
+
+        return loanDecisionService.processLoanDecision(request);
     }
-
 }
