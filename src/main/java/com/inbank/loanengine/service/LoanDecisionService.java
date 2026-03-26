@@ -1,63 +1,57 @@
 package com.inbank.loanengine.service;
 
+import com.inbank.loanengine.domain.CustomerSegment;
+import com.inbank.loanengine.domain.LoanDecision;
+import com.inbank.loanengine.domain.LoanRequest;
+import com.inbank.loanengine.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
+
+@Service
 public class LoanDecisionService {
 
-    private final boolean hasDebt;
-    private final double loanAmount;
-    private final int loanPeriod;
-    private final int creditModifier;
-    private final int minimumLoanAmount = 2000;
-    private final int maximumLoanAmount = 10000;
+    private final CustomerRepository customerRepository;
 
-    public LoanDecisionService(boolean hasDebt, double loanAmout, int loanPeriod, int creditModifier) {
-        this.hasDebt = hasDebt;
-        this.loanAmount = loanAmout;
-        this.loanPeriod = loanPeriod;
-        this.creditModifier = creditModifier;
+    public LoanDecisionService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
-    public boolean isHasDebt() {
-        return hasDebt;
-    }
 
-    public double getLoanAmout() {
-        return loanAmount;
-    }
+    public LoanDecision processLoanDecision(LoanRequest loanRequest) throws Exception {
 
-    public int getLoanPeriod() {
-        return loanPeriod;
-    }
+        var customerSegment = customerRepository.findByPersonalCode(loanRequest.getPersonalCode().strip());
 
-    public int getCreditModifier() {
-        return creditModifier;
-    }
-
-    public int getMinimumLoanAmount() {
-        return minimumLoanAmount;
-    }
-
-    public int getMaximumLoanAmount() {
-        return maximumLoanAmount;
-    }
-
-    // giveLoan method returns true if the person does not have debt and false otherwise
-    public boolean giveLoan(){
-        if (isHasDebt()) return false;
-        else return true;
-    }
-
-    // CalculateLoanAmount calculates the maximum loan amount a specific person can take (returns the value)
-    public Integer CalculateLoanAmout(){
-
-        int maxLoanAmout = getCreditModifier() * getLoanPeriod();
-
-        if (maxLoanAmout >= getMinimumLoanAmount()){
-            System.out.println("LOAN APPROVED");
-            maxLoanAmout = Math.min(maxLoanAmout,getMaximumLoanAmount());
-            return maxLoanAmout;
+        if (customerSegment.getCreditModifier() == 0) {
+            return new LoanDecision("REJECTED", null, null);
         }
-        System.out.println("LOAN DISAPPROVED");
-        return null;
+
+        int maxLoanAmount = customerSegment.getCreditModifier() * loanRequest.getLoanPeriod();
+        int newLoanPeriod = loanRequest.getLoanPeriod();
+
+        if (maxLoanAmount < 2000) {
+
+            // Loop for increasing the loan period until the maximum loan amount is at least 2000
+            while (maxLoanAmount < 2000 && newLoanPeriod <= 60) {
+                newLoanPeriod++;
+                maxLoanAmount = customerSegment.getCreditModifier() * newLoanPeriod;
+
+                if (maxLoanAmount >= 2000) {
+                    break;
+                }
+            }
+
+            // If new max loan is greater than 2000 and loan period is under 60 months, approve the loan, otherwise reject it
+            if (maxLoanAmount > 2000){
+                return new LoanDecision("APPROVED", maxLoanAmount, newLoanPeriod);
+
+            } else return new LoanDecision("REJECTED", null, null);
+
+
+
+        }
+
+        maxLoanAmount = Math.min(maxLoanAmount, 10000);
+
+        return new LoanDecision("APPROVED", maxLoanAmount, loanRequest.getLoanPeriod());
     }
 
 
